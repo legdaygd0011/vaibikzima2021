@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VAIBIK — зима 2021</title>
+<meta name="description" content="VAIBIK — 3D-игра про зиму 2021 в старом Саратове. Шлёпа на снегу, фиолетовые окна, «Подтёрочка» и вайб против мемов 2026. Скачать для Windows и Android.">
+<meta name="theme-color" content="#0b0716">
+<meta property="og:title" content="VAIBIK — зима 2021">
+<meta property="og:description" content="Шлёпа на снегу, фиолетовые окна и вайб против мемов 2026. Бесплатно для Windows и Android.">
+<meta property="og:image" content="img/hero.jpg">
+<link rel="icon" href="img/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=Manrope:wght@400;500;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0b0716; --ink2:#140c26; --ink3:#1d1236;
+  --violet:#b46cff; --violet2:#7b2cff; --glow:#e2c4ff;
+  --sodium:#ffcf8a; --snow:#eef0ff; --dim:#a99cc6; --red:#ff3a5a; --gold:#ffd21f;
+  --r:22px; --pad:clamp(16px,4vw,56px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html,body{overflow-x:clip}
+body{background:var(--ink);color:var(--snow);font:500 17px/1.6 Manrope,system-ui,sans-serif}
+.tickwrap{overflow:hidden;padding:30px 0 10px}
+img{display:block;max-width:100%}
+a{color:inherit}
+::selection{background:var(--violet);color:#fff}
+.mono{font-family:"JetBrains Mono",ui-monospace,monospace;letter-spacing:.04em}
+.disp{font-family:Unbounded,Manrope,sans-serif}
+
+/* ---------- chrome */
+#snow{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
+#bar{position:fixed;left:0;top:0;height:3px;width:0;background:linear-gradient(90deg,var(--violet2),var(--violet),var(--sodium));z-index:60}
+nav{position:fixed;top:0;left:0;right:0;z-index:55;display:flex;align-items:center;gap:28px;padding:18px var(--pad);transition:background .4s,padding .4s,backdrop-filter .4s}
+nav.solid{background:rgba(11,7,22,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);padding-block:12px}
+nav .logo{font:900 20px Unbounded;letter-spacing:.06em;text-decoration:none}
+nav .logo span{color:var(--violet)}
+nav .links{display:flex;gap:24px;margin-left:auto}
+nav .links a{text-decoration:none;color:var(--dim);font-weight:700;font-size:15px;transition:color .2s}
+nav .links a:hover{color:#fff}
+.pill{display:inline-flex;align-items:center;gap:10px;border-radius:999px;padding:12px 22px;font-weight:700;text-decoration:none;border:0;cursor:pointer;font-size:15px;transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s,background .25s}
+.pill.main{background:var(--violet);color:#16082c;box-shadow:0 0 0 0 rgba(180,108,255,.6),0 10px 40px -10px rgba(180,108,255,.8)}
+.pill.main:hover{transform:translateY(-2px);box-shadow:0 0 0 6px rgba(180,108,255,.18),0 16px 50px -10px rgba(180,108,255,.9)}
+.pill.ghost{background:rgba(255,255,255,.07);color:#fff;border:1px solid rgba(255,255,255,.16)}
+.pill.ghost:hover{background:rgba(255,255,255,.14);transform:translateY(-2px)}
+@media (max-width:760px){nav .links{display:none} nav .pill{margin-left:auto;padding:10px 16px}}
+
+/* ---------- hero */
+.hero{position:relative;height:100svh;min-height:620px;overflow:hidden}
+.hero .bg{position:absolute;inset:-6%;background:url(img/hero.jpg) center/cover;animation:kb 26s ease-in-out infinite alternate;will-change:transform}
+@keyframes kb{from{transform:scale(1.04) translate(0,0)}to{transform:scale(1.14) translate(-2%,-1%)}}
+.hero::after{content:"";position:absolute;inset:0;background:
+  radial-gradient(120% 80% at 70% 40%,transparent 30%,rgba(11,7,22,.55) 70%,var(--ink) 100%),
+  linear-gradient(180deg,rgba(11,7,22,.35) 0%,transparent 30%,transparent 55%,var(--ink) 100%)}
+.rec{position:absolute;top:92px;left:var(--pad);z-index:3;font-size:13px;color:#fff;opacity:.85;display:flex;gap:18px;align-items:center}
+.rec i{width:10px;height:10px;border-radius:50%;background:var(--red);box-shadow:0 0 12px var(--red);animation:blink 1.4s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.hero .inner{position:absolute;left:var(--pad);right:var(--pad);bottom:clamp(60px,12vh,130px);z-index:3}
+.kicker{font:600 14px Unbounded;letter-spacing:.3em;color:var(--glow);text-transform:uppercase}
+.title{font:900 clamp(78px,17vw,250px)/.86 Unbounded;letter-spacing:-.02em;margin:14px 0 18px;display:flex}
+.title span{display:inline-block;background:linear-gradient(180deg,#fff 20%,#d3b0ff 75%,#8b4dff);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 40px rgba(180,108,255,.55));transform:translateY(110%);opacity:0;animation:rise 1.1s cubic-bezier(.2,.9,.2,1) forwards}
+@keyframes rise{to{transform:none;opacity:1}}
+.lead{font-size:clamp(17px,2vw,22px);max-width:640px;color:#e8defb}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.cta .pill{padding:16px 26px;font-size:16px}
+.cta small{display:block;font-weight:500;opacity:.7;font-size:12px;margin-top:2px}
+.scrollhint{position:absolute;right:var(--pad);bottom:40px;z-index:3;writing-mode:vertical-rl;font-size:12px;letter-spacing:.3em;color:var(--dim);display:flex;align-items:center;gap:14px}
+.scrollhint::after{content:"";width:1px;height:70px;background:linear-gradient(var(--violet),transparent);animation:drip 2s ease-in-out infinite}
+@keyframes drip{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+@media (max-width:760px){.scrollhint{display:none}.rec{top:76px;font-size:11px}}
+
+/* ---------- ticker */
+.ticker{background:var(--violet);color:#16082c;overflow:hidden;white-space:nowrap;transform:rotate(-1.6deg);margin:20px -2% 0;padding:14px 0;box-shadow:0 20px 60px -20px rgba(180,108,255,.6)}
+.ticker .row{display:inline-flex;gap:38px;animation:tick 38s linear infinite;font:800 clamp(18px,2.4vw,28px) Unbounded;text-transform:uppercase}
+.ticker .row b{color:#fff;font-weight:800}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* ---------- prologue words */
+section{position:relative}
+.prolog{padding:clamp(110px,18vh,200px) var(--pad);max-width:1180px;margin:0 auto}
+.label{font:600 13px Unbounded;letter-spacing:.3em;color:var(--violet);text-transform:uppercase;margin-bottom:22px;display:flex;align-items:center;gap:12px}
+.label::before{content:"";width:28px;height:1px;background:currentColor}
+.words{font:600 clamp(26px,4.2vw,56px)/1.22 Unbounded;letter-spacing:-.01em}
+.words span{opacity:.14;transition:opacity .25s,color .25s}
+.words span.on{opacity:1}
+.words span.hot{color:var(--violet)}
+
+/* ---------- scrollytelling */
+.story{display:grid;grid-template-columns:1.15fr 1fr;gap:clamp(24px,5vw,80px);padding:0 var(--pad) 120px}
+.story .stick{position:sticky;top:12vh;height:76vh;border-radius:var(--r);overflow:hidden;background:var(--ink2);box-shadow:0 40px 120px -40px rgba(123,44,255,.6)}
+.story .stick img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.08);transition:opacity .9s ease,transform 1.6s cubic-bezier(.2,.8,.2,1)}
+.story .stick img.on{opacity:1;transform:scale(1)}
+.story .stick .ch{position:absolute;left:22px;bottom:18px;font-size:13px;color:#fff;background:rgba(11,7,22,.6);backdrop-filter:blur(6px);padding:8px 14px;border-radius:999px}
+.beat{min-height:78vh;display:flex;flex-direction:column;justify-content:center;opacity:.25;transition:opacity .6s}
+.beat.on{opacity:1}
+.beat .n{font:900 clamp(56px,7vw,110px)/1 Unbounded;color:transparent;-webkit-text-stroke:1.5px rgba(180,108,255,.7)}
+.beat h3{font:800 clamp(26px,3vw,40px)/1.15 Unbounded;margin:12px 0 16px}
+.beat p{color:#d8cdef;max-width:520px;font-size:18px}
+.beat .choice{margin-top:22px;display:grid;gap:8px;max-width:460px}
+.beat .choice div{border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:10px 16px;font-size:15px;color:#efe7ff;display:flex;gap:12px;align-items:center}
+.beat .choice div i{font:700 12px Unbounded;font-style:normal;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--violet2);flex:none}
+@media (max-width:900px){
+  .story{grid-template-columns:1fr}
+  .story .stick{top:64px;height:42vh;z-index:2}
+  .beat{min-height:70vh;padding-top:20px}
+}
+
+/* ---------- horizontal gallery */
+.hwrap{height:420vh}
+.hpin{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:center}
+.hhead{padding:0 var(--pad);margin-bottom:28px;display:flex;align-items:end;justify-content:space-between;gap:20px}
+.hhead h2,.sec h2{font:900 clamp(40px,6.5vw,96px)/.95 Unbounded;letter-spacing:-.02em}
+.hhead p{color:var(--dim);max-width:340px}
+.track{display:flex;gap:22px;padding:0 var(--pad);will-change:transform}
+.card{flex:none;width:min(62vw,820px);position:relative;border-radius:var(--r);overflow:hidden;background:var(--ink2)}
+.card img{width:100%;aspect-ratio:16/9;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.8,.2,1)}
+.card:hover img{transform:scale(1.05)}
+.card figcaption{position:absolute;left:0;right:0;bottom:0;padding:60px 26px 22px;background:linear-gradient(transparent,rgba(11,7,22,.9))}
+.card figcaption b{display:block;font:800 22px Unbounded}
+.card figcaption span{color:#d6c9f1;font-size:15px}
+.card .num{position:absolute;top:18px;right:20px;font-size:12px;color:#fff;opacity:.75}
+@media (max-width:900px){
+  .hwrap{height:auto}
+  .hpin{position:relative;height:auto;padding:110px 0 40px}
+  .track{overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:16px;transform:none!important;scrollbar-width:none}
+  .track::-webkit-scrollbar{display:none}
+  .card{width:84vw;scroll-snap-align:center}
+  .hhead{flex-direction:column;align-items:start}
+}
+
+/* ---------- enemies: sticky stack */
+.sec{padding:clamp(100px,14vh,160px) var(--pad) 40px;max-width:1300px;margin:0 auto}
+.sec .intro{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:46px}
+.sec .intro p{color:var(--dim);max-width:420px}
+.stack{display:grid;gap:0}
+.foe{position:sticky;top:calc(90px + var(--i) * 26px);display:grid;grid-template-columns:1.3fr 1fr;min-height:430px;border-radius:28px;overflow:hidden;margin-bottom:60px;
+  background:linear-gradient(135deg,var(--c1),var(--ink2) 70%);border:1px solid rgba(255,255,255,.08);box-shadow:0 -20px 60px -30px rgba(0,0,0,.8);transform-origin:top center}
+.foe img{width:100%;height:100%;object-fit:cover}
+.foe .txt{padding:clamp(22px,3vw,44px);display:flex;flex-direction:column;justify-content:center}
+.foe .tag{font-size:12px;color:#fff;opacity:.7}
+.foe h3{font:900 clamp(30px,3.6vw,50px)/1 Unbounded;margin:10px 0 14px}
+.foe p{color:#e1d7f5}
+.hp{margin-top:22px;height:10px;border-radius:9px;background:rgba(0,0,0,.4);overflow:hidden}
+.hp i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--red),var(--violet));transition:width 1.4s cubic-bezier(.2,.8,.2,1)}
+.foe.in .hp i{width:var(--hp)}
+.hpn{display:flex;justify-content:space-between;font-size:12px;color:var(--dim);margin-top:8px}
+@media (max-width:900px){.foe{grid-template-columns:1fr;min-height:0;top:calc(70px + var(--i) * 14px)}.foe img{aspect-ratio:16/9;height:auto}}
+
+/* ---------- allies */
+.allies{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.ally{border-radius:var(--r);overflow:hidden;background:var(--ink2);border:1px solid rgba(255,255,255,.07);transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.ally:hover{transform:translateY(-8px) rotate(-.6deg)}
+.ally .ph{aspect-ratio:4/5;overflow:hidden}
+.ally .ph img{width:100%;height:100%;object-fit:cover;object-position:var(--pos,center);transform:scale(1.25)}
+.ally div.t{padding:22px 24px 26px}
+.ally h4{font:800 26px Unbounded}
+.ally .skill{display:inline-block;margin:10px 0 12px;font-size:12px;padding:6px 12px;border-radius:999px;background:rgba(180,108,255,.16);color:var(--glow)}
+.ally p{color:#d3c8ea;font-size:16px}
+@media (max-width:900px){.allies{grid-template-columns:1fr}.ally .ph{aspect-ratio:16/10}}
+
+/* ---------- numbers */
+.nums{display:grid;grid-template-columns:repeat(6,1fr);border-block:1px solid rgba(255,255,255,.1);margin-top:110px}
+.nums div{padding:40px 20px;border-right:1px solid rgba(255,255,255,.1)}
+.nums div:last-child{border:0}
+.nums b{display:block;font:900 clamp(36px,4.2vw,64px)/1 Unbounded;color:#fff}
+.nums span{color:var(--dim);font-size:14px}
+@media (max-width:900px){.nums{grid-template-columns:repeat(2,1fr)}.nums div:nth-child(2n){border-right:0}.nums div{border-bottom:1px solid rgba(255,255,255,.1)}}
+
+/* ---------- pocket */
+.pocket{display:grid;grid-template-columns:1.25fr 1fr;gap:clamp(30px,5vw,80px);align-items:center}
+.phone{position:relative;border-radius:46px;padding:14px;background:linear-gradient(145deg,#2c2440,#100b1c);box-shadow:0 60px 140px -40px rgba(123,44,255,.7),inset 0 0 0 2px rgba(255,255,255,.08);
+  transform:perspective(1400px) rotateY(var(--ry,-14deg)) rotateX(var(--rx,6deg));transition:transform .2s linear}
+.phone img{border-radius:34px;width:100%;aspect-ratio:16/9;object-fit:cover}
+.phone::before{content:"";position:absolute;left:50%;top:50%;width:10px;height:56px;border-radius:9px;background:#05030a;left:24px;transform:translateY(-50%)}
+.feat{display:grid;gap:18px;margin-top:26px}
+.feat div{display:grid;grid-template-columns:48px 1fr;gap:14px;align-items:start}
+.feat svg{width:48px;height:48px;padding:11px;border-radius:14px;background:rgba(180,108,255,.14);stroke:var(--glow);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.feat b{display:block;font-size:17px}
+.feat span{color:var(--dim);font-size:15px}
+@media (max-width:900px){.pocket{grid-template-columns:1fr}}
+
+/* ---------- vaibify */
+.vf{margin-top:120px;border-radius:28px;padding:clamp(22px,3vw,36px);background:radial-gradient(120% 140% at 0% 0%,#3a1a6e 0%,#151020 55%);display:grid;grid-template-columns:auto 1fr;gap:clamp(20px,3vw,40px);align-items:center;border:1px solid rgba(255,255,255,.08)}
+.cover{width:clamp(130px,16vw,210px);aspect-ratio:1;border-radius:16px;background:linear-gradient(160deg,#7b2cff,#1a0b3a);position:relative;overflow:hidden;box-shadow:0 30px 60px -20px rgba(0,0,0,.7)}
+.cover::before{content:"";position:absolute;left:12%;right:12%;bottom:0;height:56%;background:
+  linear-gradient(90deg,transparent 0 6%,#120626 6% 22%,transparent 22% 28%,#120626 28% 46%,transparent 46% 52%,#120626 52% 70%,transparent 70% 76%,#120626 76% 94%,transparent 94%)}
+.cover::after{content:"";position:absolute;right:18%;top:16%;width:16%;aspect-ratio:1;border-radius:50%;background:#efe6ff;box-shadow:0 0 30px #c9a2ff}
+.cover.playing{animation:breathe 2.6s ease-in-out infinite}
+@keyframes breathe{50%{transform:scale(1.03);box-shadow:0 30px 80px -10px rgba(180,108,255,.6)}}
+.vf h3{font:800 clamp(22px,2.6vw,34px) Unbounded}
+.vf .who{color:var(--dim);margin:4px 0 18px}
+.vf .ctrl{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.play{width:62px;height:62px;border-radius:50%;border:0;background:#fff;cursor:pointer;display:grid;place-items:center;transition:transform .2s}
+.play:hover{transform:scale(1.07)}
+.play svg{width:24px;height:24px;fill:#16082c}
+.bars{display:flex;gap:4px;align-items:end;height:36px}
+.bars i{width:5px;border-radius:3px;background:var(--violet);height:6px;transition:height .12s}
+.tracks{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.tracks button{font:600 13px Manrope;background:rgba(255,255,255,.07);color:#e9e0fb;border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:7px 14px;cursor:pointer}
+.tracks button.on{background:var(--violet);color:#16082c;border-color:transparent}
+@media (max-width:640px){.vf{grid-template-columns:1fr}}
+
+/* ---------- download */
+.dl{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.box{position:relative;border-radius:28px;padding:clamp(24px,3vw,40px);background:var(--ink2);border:1px solid rgba(255,255,255,.08);overflow:hidden;transition:transform .4s,border-color .4s}
+.box.me{border-color:rgba(180,108,255,.7);box-shadow:0 30px 100px -40px rgba(180,108,255,.8)}
+.box .me-tag{display:none;position:absolute;top:22px;right:22px;font-size:12px;background:var(--violet);color:#16082c;padding:6px 12px;border-radius:999px;font-weight:700}
+.box.me .me-tag{display:block}
+.box svg.os{width:46px;height:46px;stroke:#fff;fill:none;stroke-width:1.6}
+.box h3{font:800 clamp(26px,3vw,38px) Unbounded;margin:18px 0 4px}
+.box .size{color:var(--dim);font-size:15px}
+.box ol{margin:22px 0 28px 20px;color:#ddd2f2;display:grid;gap:8px;font-size:16px}
+.box .pill{padding:16px 28px;font-size:16px}
+.box::after{content:"";position:absolute;right:-80px;bottom:-80px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(180,108,255,.25),transparent 70%)}
+@media (max-width:900px){.dl{grid-template-columns:1fr}}
+
+/* ---------- faq */
+.faq{max-width:900px}
+details{border-bottom:1px solid rgba(255,255,255,.1);padding:22px 0}
+summary{cursor:pointer;list-style:none;font:700 clamp(18px,2vw,22px) Unbounded;display:flex;justify-content:space-between;gap:20px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--violet);transition:transform .3s;font-weight:400}
+details[open] summary::after{transform:rotate(45deg)}
+details p{color:#d6cbec;margin-top:14px;max-width:760px}
+footer{padding:120px var(--pad) 60px;text-align:center;color:var(--dim);font-size:14px}
+footer .big{font:900 clamp(60px,14vw,200px)/.9 Unbounded;color:transparent;-webkit-text-stroke:1px rgba(180,108,255,.5);margin-bottom:24px;letter-spacing:-.02em}
+
+/* ---------- reveal */
+.rv{opacity:0;transform:translateY(40px);filter:blur(6px);transition:opacity 1s cubic-bezier(.2,.8,.2,1),transform 1s cubic-bezier(.2,.8,.2,1),filter 1s}
+.rv.in{opacity:1;transform:none;filter:none}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .title span{opacity:1;transform:none}.rv{opacity:1;transform:none;filter:none}.words span{opacity:1}
+}
+</style>
+</head>
+<body>
+<canvas id="snow"></canvas>
+<div id="bar"></div>
+
+<nav id="nav">
+  <a class="logo" href="#top">VAI<span>B</span>IK</a>
+  <div class="links"><a href="#story">Сюжет</a><a href="#district">Район</a><a href="#pocket">На телефоне</a><a href="#faq">Вопросы</a></div>
+  <a class="pill main" href="#download">Скачать</a>
+</nav>
+
+<header class="hero" id="top">
+  <div class="bg" id="herobg"></div>
+  <div class="rec mono"><i></i>REC &nbsp; 18 ДЕК 2021 &nbsp; 23:41 <span style="opacity:.6">САРАТОВ · −14°C</span></div>
+  <div class="inner">
+    <div class="kicker">Зима · 2021 · Саратов</div>
+    <h1 class="title" aria-label="VAIBIK"><span style="animation-delay:.05s">V</span><span style="animation-delay:.12s">A</span><span style="animation-delay:.19s">I</span><span style="animation-delay:.26s">B</span><span style="animation-delay:.33s">I</span><span style="animation-delay:.4s">K</span></h1>
+    <p class="lead">Двор из четырёх пятиэтажек, фиолетовый свет из окон на снегу и Шлёпа, который слишком долго смотрит в небо. А небо как раз треснуло — оттуда лезут мемы 2026 года.</p>
+    <div class="cta">
+      <a class="pill main" id="heroDl" href="downloads/Vaibik_PC.zip" download><span><span id="heroDlT">Скачать для Windows</span><small id="heroDlS">ZIP · 29 МБ · бесплатно</small></span></a>
+      <a class="pill ghost" id="heroAlt" href="downloads/VAIBIK.apk" download><span><span id="heroAltT">Версия для Android</span><small id="heroAltS">APK · 0,8 МБ</small></span></a>
+    </div>
+  </div>
+  <div class="scrollhint mono">ЛИСТАЙ</div>
+</header>
+
+<div class="tickwrap"><div class="ticker" aria-hidden="true"><div class="row" id="tickrow"></div></div></div>
+
+<section class="prolog" id="story">
+  <div class="label">Сюжет</div>
+  <p class="words" id="words">Вам нужно победить мемы 2026.</p>
+</section>
+
+<section class="hwrap" id="district">
+  <div class="hpin">
+    <div class="hhead"><h2 class="rv">Весь район<br>открыт</h2><p class="rv">Пять на пять кварталов и Волга. Заходи в подъезды, катайся на лифте, грейся в «Подтёрочке». Ночью тут красивее всего.</p></div>
+    <div class="track" id="track">
+      <figure class="card"><img loading="lazy" src="img/tree_s.jpg" srcset="img/tree_s.jpg 800w, img/tree.jpg 1600w" sizes="(max-width:900px) 84vw, 62vw" alt="Ёлка на площади с баннером «С Новым 2022 годом!»"><span class="num mono">01</span><figcaption><b>Площадь с ёлкой</b><span>Баннер «С Новым 2022 годом», ларёк с шаурмой, Абоба</span></figcaption></figure>
+      <figure class="card"><img loading="lazy" src="img/rink_s.jpg" srcset="img/rink_s.jpg 800w, img/rink.jpg 1600w" sizes="(max-width:900px) 84vw, 62vw" alt="Каток в парке"><span class="num mono">02</span><figcaption><b>Каток в парке</b><span>Настоящая инерция на льду. Разгоняйся и скользи</span></figcaption></figure>
+      <figure class="card"><img loading="lazy" src="img/stair_s.jpg" srcset="img/stair_s.jpg 800w, img/stair.jpg 1600w" sizes="(max-width:900px) 84vw, 62vw" alt="Подъезд с граффити"><span class="num mono">03</span><figcaption><b>Подъезд</b><span>Граффити «ЦОЙ ЖИВ», почтовые ящики и советский лифт с пультом</span></figcaption></figure>
+      <figure class="card"><img loading="lazy" src="img/aptwin_s.jpg" srcset="img/aptwin_s.jpg 800w, img/aptwin.jpg 1600w" sizes="(max-width:900px) 84vw, 62vw" alt="Вид из окна квартиры 17"><span class="num mono">04</span><figcaption><b>Квартира 17</b><span>Вид из окна на весь двор. На столе — компьютер с Windows</span></figcaption></figure>
+      <figure class="card"><img loading="lazy" src="img/shop_s.jpg" srcset="img/shop_s.jpg 800w, img/shop.jpg 1600w" sizes="(max-width:900px) 84vw, 62vw" alt="Полки магазина «Подтёрочка»"><span class="num mono">05</span><figcaption><b>«Подтёрочка» 24/7</b><span>45 товаров, тульские пряники и корм «Шлёпа Премиум»</span></figcaption></figure>
+      <figure class="card"><img loading="lazy" src="img/craft_s.jpg" srcset="img/craft_s.jpg 800w, img/craft.jpg 1600w" sizes="(max-width:900px) 84vw, 62vw" alt="Игра VaibCraft на компьютере"><span class="num mono">06</span><figcaption><b>VaibCraft на компьютере</b><span>Отдельная игра-песочница с крафтом и порталом в финале</span></figcaption></figure>
+      <figure class="card"><img loading="lazy" src="img/park_s.jpg" srcset="img/park_s.jpg 800w, img/park.jpg 1600w" sizes="(max-width:900px) 84vw, 62vw" alt="Ночной парк с фонарями"><span class="num mono">07</span><figcaption><b>Парк</b><span>Фонари, беседка и берёзы. Иногда здесь открываются разломы</span></figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="intro"><h2 class="rv">Свои<br>из 2021</h2><p class="rv">Союзников не покупают. Их зовут, кормят и обнимают. В бою каждый делает своё — сам.</p></div>
+  <div class="allies">
+    <div class="ally rv"><div class="ph" style="--pos:55% 65%"><img loading="lazy" src="img/floppa_s.jpg" alt="Шлёпа"></div><div class="t"><h4>Шлёпа</h4><span class="skill mono">ДОЛГИЙ ВЗГЛЯД</span><p>Замораживает мема на три секунды. Когда врагов рядом нет — мурчит, и здоровье восстанавливается быстрее.</p></div></div>
+    <div class="ally rv" style="transition-delay:.1s"><div class="ph" style="--pos:58% 45%"><img loading="lazy" src="img/rock_s.jpg" alt="Скала"></div><div class="t"><h4>Скала</h4><span class="skill mono">БРОВЬ-ВОЛНА</span><p>Молчит весь 2021 год. Медленно поднимает бровь — и всех мемов вокруг сносит волной. Любит тульские пряники.</p></div></div>
+    <div class="ally rv" style="transition-delay:.2s"><div class="ph" style="--pos:45% 40%"><img loading="lazy" src="img/plush_s.jpg" alt="Плюшик"></div><div class="t"><h4>Плюшик</h4><span class="skill mono">ОБНИМАШКИ</span><p>Синий плюшевый великан в шарфе. Хватает мема в объятия и не отпускает, пока тот не выйдет из тренда.</p></div></div>
+  </div>
+
+  <div class="nums" id="nums">
+    <div><b data-n="14">0</b><span>глав сюжета</span></div>
+    <div><b data-n="76">0</b><span>миссий</span></div>
+    <div><b data-n="3">0</b><span>концовки</span></div>
+    <div><b data-n="6">0</b><span>видов оружия</span></div>
+    <div><b data-n="1000">0</b><span>видео в ВайбТоке</span></div>
+    <div><b data-n="18">0</b><span>приложений в телефоне</span></div>
+  </div>
+</section>
+
+<section class="sec" id="pocket">
+  <div class="pocket">
+    <div class="phone rv" id="phone"><img loading="lazy" src="img/touch.jpg" alt="Игра на телефоне с сенсорным управлением"></div>
+    <div>
+      <div class="label rv">На телефоне</div>
+      <h2 class="rv" style="font:900 clamp(36px,5vw,72px)/.98 Unbounded;letter-spacing:-.02em">Та же игра.<br>В кармане.</h2>
+      <div class="feat">
+        <div class="rv"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/></svg><p><b>Джойстик там, где палец</b><span>Он появляется под большим пальцем. Уведи палец дальше — побежишь.</span></p></div>
+        <div class="rv"><svg viewBox="0 0 24 24"><path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="6"/></svg><p><b>Огонь и прицел одним пальцем</b><span>Держишь «Огонь» и ведёшь — камера поворачивается за пальцем.</span></p></div>
+        <div class="rv"><svg viewBox="0 0 24 24"><path d="M5 4h11l3 3v13H5z"/><path d="M8 4v5h7V4M8 20v-6h8v6"/></svg><p><b>Сохранения сами</b><span>Каждые 30 секунд и когда сворачиваешь игру. Сюжет и песочница — отдельно.</span></p></div>
+        <div class="rv"><svg viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/></svg><p><b>Телефон в телефоне</b><span>ВайбТок на 1000 видео, Vaibify, Вайббанк, Карта и ещё 14 приложений на кнопке M.</span></p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="vf rv" id="vaibify">
+    <div class="cover" id="cover"></div>
+    <div>
+      <div class="label" style="margin-bottom:10px">Vaibify · играет в браузере</div>
+      <h3 id="trk">Фиолетовые окна</h3>
+      <div class="who">vaibik · lo-fi из игры, синтезируется прямо сейчас</div>
+      <div class="ctrl">
+        <button class="play" id="play" aria-label="Играть"><svg viewBox="0 0 24 24" id="pico"><path d="M7 4l13 8-13 8z"/></svg></button>
+        <div class="bars" id="bars"></div>
+      </div>
+      <div class="tracks" id="tracks"></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="download">
+  <div class="intro"><h2 class="rv">Скачать</h2><p class="rv">Бесплатно. Без установки лишнего: Java уже внутри ПК-версии, а Android и так всё умеет.</p></div>
+  <div class="dl">
+    <div class="box rv" id="boxPc"><span class="me-tag mono">ТВОЁ УСТРОЙСТВО</span>
+      <svg class="os" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+      <h3>Windows</h3><div class="size mono">Vaibik_PC.zip · 29 МБ · Windows 10 / 11</div>
+      <ol><li>Скачай архив и распакуй его в любую папку.</li><li>Открой <b>Vaibik.exe</b> в папке Vaibik.</li><li>Если Windows покажет синее окно — «Подробнее» → «Выполнить в любом случае».</li></ol>
+      <a class="pill main" href="downloads/Vaibik_PC.zip" download>Скачать для ПК</a>
+    </div>
+    <div class="box rv" id="boxAnd" style="transition-delay:.1s"><span class="me-tag mono">ТВОЁ УСТРОЙСТВО</span>
+      <svg class="os" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M11 18h2"/></svg>
+      <h3>Android</h3><div class="size mono">VAIBIK.apk · 0,8 МБ · Android 8 и новее</div>
+      <ol><li>Скачай файл на телефон.</li><li>Открой его и разреши установку из этого источника.</li><li>Запусти VAIBIK. Первые секунды — «строим район...».</li></ol>
+      <a class="pill main" href="downloads/VAIBIK.apk" download>Скачать APK</a>
+    </div>
+  </div>
+</section>
+
+<section class="sec faq" id="faq">
+  <div class="label rv">Вопросы</div>
+  <details class="rv"><summary>Почему игра весит так мало?</summary><p>В ней почти нет готовых файлов. Дома, Шлёпа, мемы, текстуры кирпича и снега, музыка Vaibify и видео в ВайбТоке создаются кодом прямо во время запуска. Поэтому вся игра — по сути текст программы. ПК-архив весит 29 МБ в основном из-за Java внутри, чтобы ничего не нужно было ставить.</p></details>
+  <details class="rv"><summary>Телефон не даёт установить APK</summary><p>Это нормально для приложений не из Google Play. Когда откроешь файл, Android предложит разрешить установку из браузера или файлового менеджера — разреши только для этого раза.</p></details>
+  <details class="rv"><summary>Где мои сохранения?</summary><p>На ПК — в папке <span class="mono">.vaibik</span> в папке пользователя, на телефоне — внутри приложения. Сюжет и песочница сохраняются отдельно, а в меню есть «Продолжить» и «Новая игра».</p></details>
+  <details class="rv"><summary>Что такое песочница?</summary><p>Свободная игра без сюжета: 50 000 ₽, всё оружие сразу и кнопка «Спавн врагов». Врагов нет, пока ты сам их не позовёшь — от одного 67 до Алгоритма 2026.</p></details>
+  <details class="rv"><summary>Как управлять на ПК?</summary><p><span class="mono">WASD</span> — ходить, <span class="mono">Shift</span> — бег, <span class="mono">ЛКМ</span> — стрелять, <span class="mono">1–6</span> — оружие, <span class="mono">G</span> — убрать оружие, <span class="mono">H</span> — чай, <span class="mono">E</span> — действие, <span class="mono">M</span> — телефон, <span class="mono">Q</span> — музыка, <span class="mono">V</span> — вид от третьего лица, <span class="mono">B</span> — спавн врагов в песочнице.</p></details>
+</section>
+
+<footer>
+  <div class="big">VAIBIK</div>
+  <p>Зима 2021 · Саратов · фиолетовые окна</p>
+  <p style="margin-top:8px;opacity:.7">Фанатская игра по мотивам мемов. Все персонажи нарисованы заново.</p>
+</footer>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+
+  /* ---------- platform: put the right download first */
+  const ua = navigator.userAgent, android = /Android/i.test(ua), ios = /iPhone|iPad|iPod/i.test(ua);
+  if (android) {
+    $('#heroDl').href = 'downloads/VAIBIK.apk'; $('#heroDlT').textContent = 'Скачать для Android'; $('#heroDlS').textContent = 'APK · 0,8 МБ · бесплатно';
+    $('#heroAlt').href = 'downloads/Vaibik_PC.zip'; $('#heroAltT').textContent = 'Версия для Windows'; $('#heroAltS').textContent = 'ZIP · 29 МБ';
+    $('#boxAnd').classList.add('me'); $('#boxAnd').parentNode.prepend($('#boxAnd'));
+  } else if (ios) {
+    $('#heroDlS').textContent = 'на iPhone пока нет — скачай на ПК';
+  } else $('#boxPc').classList.add('me');
+
+  /* ---------- ticker */
+  const t = ['Шлёпа на снегу', '<b>сикс-севен</b>', 'фиолетовые окна', '«Подтёрочка» 24/7', '<b>абоба</b>', 'тульские пряники', 'чиназес', 'с новым 2022', '<b>вайб 2021</b>', 'бровь-волна', 'обнимашки'];
+  const row = t.map(x => '<span>' + x + '</span><span>✶</span>').join('');
+  $('#tickrow').innerHTML = row + row;
+
+  /* ---------- snow */
+  const cv = $('#snow'), cx = cv.getContext('2d');
+  let W, H, flakes = [];
+  const resize = () => {
+    const dpr = Math.min(2, devicePixelRatio || 1);
+    W = cv.width = innerWidth * dpr; H = cv.height = innerHeight * dpr;
+    const n = Math.round(Math.min(260, innerWidth * innerHeight / 7000));
+    flakes = Array.from({length: n}, () => ({x: Math.random() * W, y: Math.random() * H, z: Math.random(), p: Math.random() * 6.28}));
+  };
+  resize(); addEventListener('resize', resize);
+  let wind = 0, lastY = scrollY;
+  const snow = () => {
+    cx.clearRect(0, 0, W, H);
+    const dy = scrollY - lastY; lastY = scrollY; wind += (dy * 0.04 - wind) * 0.05;
+    for (const f of flakes) {
+      const s = 0.4 + f.z * 1.8;
+      f.p += 0.01 + f.z * 0.01;
+      f.y += s * 0.9 * devicePixelRatio - wind * (0.5 + f.z) * 6; f.x += Math.sin(f.p) * 0.6 + 0.35 * s;
+      if (f.y > H + 10) { f.y = -10; f.x = Math.random() * W; } if (f.y < -12) f.y = H + 8;
+      if (f.x > W + 10) f.x = -10;
+      const r = (0.8 + f.z * 2.6) * Math.min(2, devicePixelRatio);
+      cx.globalAlpha = 0.25 + f.z * 0.6;
+      cx.fillStyle = f.z > 0.85 ? '#e9d6ff' : '#f4f5ff';
+      cx.beginPath(); cx.arc(f.x, f.y, r, 0, 6.283); cx.fill();
+    }
+    requestAnimationFrame(snow);
+  };
+  if (!reduce) snow();
+
+  /* ---------- reveal */
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), {threshold: .15});
+  $$('.rv, .foe').forEach(el => io.observe(el));
+
+  /* ---------- prologue: words light up while scrolling */
+  const wp = $('#words');
+  const hot = ['мемы', '2026.'];
+  wp.innerHTML = wp.textContent.trim().split(/\s+/).map(w => '<span' + (hot.includes(w) || w.includes('2026') ? ' class="hot"' : '') + '>' + w + '</span>').join(' ');
+  const ws = [...wp.children];
+
+  /* ---------- scrollytelling */
+  const beats = $$('.beat'), shots = $$('.stick img'), chl = $('#chlabel') || {};
+  let curBeat = 0;
+
+  /* ---------- horizontal gallery */
+  const hw = $('.hwrap'), track = $('#track');
+  const wide = matchMedia('(min-width: 901px)');
+
+  /* ---------- counters */
+  let counted = false;
+  const countUp = () => {
+    counted = true;
+    $$('#nums b').forEach(b => {
+      const n = +b.dataset.n, t0 = performance.now();
+      const step = now => { const k = Math.min(1, (now - t0) / 1600), e = 1 - Math.pow(1 - k, 3); b.textContent = Math.round(n * e).toLocaleString('ru-RU'); if (k < 1) requestAnimationFrame(step); };
+      requestAnimationFrame(step);
+    });
+  };
+
+  const nav = $('#nav'), bar = $('#bar'), hero = $('#herobg'), phone = $('#phone');
+  const onScroll = () => {
+    const y = scrollY, vh = innerHeight;
+    bar.style.width = (y / (document.documentElement.scrollHeight - vh) * 100) + '%';
+    nav.classList.toggle('solid', y > 40);
+    if (!reduce && y < vh * 1.2) hero.style.transform = 'translateY(' + (y * 0.35) + 'px) scale(' + (1.06 + y / vh * 0.08) + ')';
+
+    const r = wp.getBoundingClientRect(), k = Math.min(1, Math.max(0, (vh * 0.85 - r.top) / (r.height + vh * 0.35)));
+    const lit = Math.floor(k * ws.length * 1.05);
+    ws.forEach((s, i) => s.classList.toggle('on', i < lit));
+
+    let best = curBeat, bd = 1e9;
+    beats.forEach((b, i) => { const br = b.getBoundingClientRect(), d = Math.abs(br.top + br.height / 2 - vh / 2); if (d < bd) { bd = d; best = i; } });
+    if (beats.length && best !== curBeat) {
+      curBeat = best;
+      beats.forEach((b, i) => b.classList.toggle('on', i === best));
+      shots.forEach((s, i) => s.classList.toggle('on', i === best));
+      chl.textContent = beats[best].dataset.ch;
+    }
+
+    if (wide.matches) {
+      const hr = hw.getBoundingClientRect(), total = hw.offsetHeight - vh;
+      const p = Math.min(1, Math.max(0, -hr.top / total));
+      track.style.transform = 'translateX(' + (-(track.scrollWidth - innerWidth) * p) + 'px)';
+    }
+
+    $$('.foe').forEach(f => {
+      const fr = f.getBoundingClientRect(), next = f.nextElementSibling;
+      if (!next) return;
+      const nr = next.getBoundingClientRect(), cover = Math.min(1, Math.max(0, 1 - (nr.top - fr.top) / fr.height));
+      f.style.transform = 'scale(' + (1 - cover * 0.06) + ')'; f.style.filter = 'brightness(' + (1 - cover * 0.45) + ')';
+    });
+
+    if (phone) {
+      const pr = phone.getBoundingClientRect(), q = (pr.top + pr.height / 2 - vh / 2) / vh;
+      phone.style.setProperty('--ry', (-14 + q * -20) + 'deg'); phone.style.setProperty('--rx', (6 + q * 10) + 'deg');
+    }
+    if (!counted && $('#nums').getBoundingClientRect().top < vh * 0.85) countUp();
+  };
+  addEventListener('scroll', () => requestAnimationFrame(onScroll), {passive: true});
+  addEventListener('resize', onScroll); onScroll();
+
+  /* ---------- Vaibify: a tiny lo-fi synth, like the one in the game */
+  const TR = [
+    ['Фиолетовые окна', 72, [[0, 3, 7, 10], [5, 8, 12, 15], [-4, 0, 3, 7], [-2, 2, 5, 9]], 45],
+    ['Шлёпа на снегу', 84, [[0, 4, 7, 11, 14], [5, 9, 12, 16], [2, 5, 9, 12], [7, 11, 14, 17]], 48],
+    ['Декабрь 2021', 68, [[0, 3, 7, 10], [5, 8, 12, 15], [-2, 2, 5, 9], [3, 7, 10, 14]], 40],
+    ['Двор на Чапаева', 78, [[0, 3, 7, 12], [-2, 3, 7, 10], [-4, 0, 3, 8], [-5, -1, 2, 7]], 44],
+    ['Тульский пряник', 88, [[0, 4, 7, 9], [2, 5, 9, 12], [4, 7, 11, 14], [5, 9, 12, 16]], 44],
+    ['Q-сторона', 70, [[0, 3, 7, 10, 17], [-3, 0, 4, 7], [-5, -2, 2, 5], [-7, -3, 0, 4]], 52]];
+  let ac, master, an, playing = false, cur = 0, timer, bar0 = 0;
+  const tb = $('#tracks');
+  TR.forEach((t, i) => { const b = document.createElement('button'); b.textContent = t[0]; b.onclick = () => { cur = i; sel(); if (!playing) toggle(); else bar0 = 0; }; tb.appendChild(b); });
+  const sel = () => { [...tb.children].forEach((b, i) => b.classList.toggle('on', i === cur)); $('#trk').textContent = TR[cur][0]; };
+  sel();
+  const bars = $('#bars'); for (let i = 0; i < 14; i++) bars.appendChild(document.createElement('i'));
+  const mtof = m => 440 * Math.pow(2, (m - 69) / 12);
+  const init = () => {
+    ac = new (window.AudioContext || window.webkitAudioContext)();
+    master = ac.createGain(); master.gain.value = 0.5;
+    const lp = ac.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 2400;
+    const dl = ac.createDelay(1), fb = ac.createGain(); dl.delayTime.value = 0.33; fb.gain.value = 0.35;
+    an = ac.createAnalyser(); an.fftSize = 64;
+    master.connect(lp); lp.connect(an); lp.connect(dl); dl.connect(fb); fb.connect(dl); dl.connect(an); an.connect(ac.destination);
+  };
+  const note = (f, t, d, a, type) => {
+    const o = ac.createOscillator(), g = ac.createGain(); o.type = type; o.frequency.value = f; o.detune.value = (Math.random() - .5) * 12;
+    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(a, t + Math.min(.3, d * .3)); g.gain.exponentialRampToValueAtTime(0.0008, t + d);
+    o.connect(g); g.connect(master); o.start(t); o.stop(t + d + .05);
+  };
+  const kick = t => { const o = ac.createOscillator(), g = ac.createGain(); o.frequency.setValueAtTime(120, t); o.frequency.exponentialRampToValueAtTime(42, t + .25); g.gain.setValueAtTime(.55, t); g.gain.exponentialRampToValueAtTime(.001, t + .4); o.connect(g); g.connect(master); o.start(t); o.stop(t + .45); };
+  const hat = t => { const n = ac.createBufferSource(), b = ac.createBuffer(1, 2205, 44100), d = b.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / d.length); n.buffer = b; const h = ac.createBiquadFilter(); h.type = 'highpass'; h.frequency.value = 7000; const g = ac.createGain(); g.gain.value = .12; n.connect(h); h.connect(g); g.connect(master); n.start(t); };
+  const schedule = () => {
+    const [, bpm, ch, root] = TR[cur], beat = 60 / bpm, t0 = ac.currentTime + 0.05, c = ch[bar0 % ch.length];
+    c.forEach(n => note(mtof(root + 12 + n), t0, beat * 4.2, 0.05, 'triangle'));
+    note(mtof(root + c[0] - 12), t0, beat * 1.8, 0.16, 'sine'); note(mtof(root + c[0] - 12), t0 + beat * 2.5, beat * 1.2, 0.12, 'sine');
+    for (let i = 0; i < 4; i++) { if (i % 2 === 0) kick(t0 + i * beat); hat(t0 + i * beat + beat / 2); }
+    for (let i = 0; i < 3; i++) if (Math.random() < .7) note(mtof(root + 24 + c[Math.floor(Math.random() * c.length)]), t0 + beat * (i * 1.3 + .5), beat, 0.04, 'sine');
+    bar0++; timer = setTimeout(schedule, beat * 4 * 1000 - 20);
+  };
+  const vis = () => { if (!playing) { [...bars.children].forEach(b => b.style.height = '6px'); return; } const d = new Uint8Array(an.frequencyBinCount); an.getByteFrequencyData(d); [...bars.children].forEach((b, i) => b.style.height = (6 + d[i + 1] / 255 * 30) + 'px'); requestAnimationFrame(vis); };
+  const toggle = () => {
+    if (!ac) init(); ac.resume();
+    playing = !playing; $('#cover').classList.toggle('playing', playing);
+    $('#pico').innerHTML = playing ? '<path d="M6 4h4v16H6zM14 4h4v16h-4z"/>' : '<path d="M7 4l13 8-13 8z"/>';
+    $('#play').setAttribute('aria-label', playing ? 'Пауза' : 'Играть');
+    if (playing) { bar0 = 0; schedule(); vis(); } else clearTimeout(timer);
+  };
+  $('#play').onclick = toggle;
+})();
+</script>
+</body>
+</html>
