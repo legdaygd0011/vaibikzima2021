@@ -218,6 +218,18 @@ section{position:relative}
 .box::after{content:"";position:absolute;right:-80px;bottom:-80px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(180,108,255,.25),transparent 70%)}
 @media (max-width:900px){.dl{grid-template-columns:1fr}}
 
+/* ---------- updates */
+.updl{display:grid;gap:14px;max-width:980px}
+.upd{border-radius:24px;background:var(--ink2);border:1px solid rgba(255,255,255,.08);padding:clamp(20px,3vw,34px)}
+.upd.now{border-color:rgba(255,210,31,.55);box-shadow:0 30px 90px -50px rgba(255,210,31,.6)}
+.upd .uv{font-size:13px;color:var(--violet)}
+.upd.now .uv{color:#ffd21f}
+.upd h3{font:800 clamp(24px,3vw,36px) Unbounded;margin:8px 0 14px}
+.upd ul{margin:0 0 0 20px;display:grid;gap:8px;color:#ddd2f2;font-size:16px}
+.upd.now ul li::marker{color:#ffd21f}
+.upd summary{font:700 clamp(17px,2vw,21px) Unbounded}
+.upd[open] ul{margin-top:14px}
+
 /* ---------- faq */
 .faq{max-width:900px}
 details{border-bottom:1px solid rgba(255,255,255,.1);padding:22px 0}
@@ -243,8 +255,8 @@ footer .big{font:900 clamp(60px,14vw,200px)/.9 Unbounded;color:transparent;-webk
 <div id="bar"></div>
 
 <nav id="nav">
-  <a class="logo" href="#top">VAI<span>B</span>IK</a>
-  <div class="links"><a href="#story">Сюжет</a><a href="#district">Район</a><a href="#pocket">На телефоне</a><a href="#faq">Вопросы</a></div>
+  <a class="logo" href="#top">VAI<span>B</span>IK <small class="mono" style="font-size:11px;opacity:.6;margin-left:6px">v2.0</small></a>
+  <div class="links"><a href="#story">Сюжет</a><a href="#district">Район</a><a href="#pocket">На телефоне</a><a href="#updates">Обновления</a><a href="#faq">Вопросы</a></div>
   <a class="pill main" href="#download">Скачать</a>
 </nav>
 
@@ -272,7 +284,7 @@ footer .big{font:900 clamp(60px,14vw,200px)/.9 Unbounded;color:transparent;-webk
 
 <section class="hwrap" id="district">
   <div class="hpin">
-    <div class="hhead"><h2 class="rv">Весь район<br>открыт</h2><p class="rv">Пять на пять кварталов и Волга. Заходи в подъезды, катайся на лифте, грейся в «Подтёрочке». Ночью тут красивее всего.</p></div>
+    <div class="hhead"><h2 class="rv">Весь район<br>открыт</h2><p class="rv">63 квартала и Волга: старые дворы, частный сектор, гаражи с заводом, новостройки и стадион. Заходи в подъезды, катайся на лифте, грейся в «Подтёрочке».</p></div>
     <div class="track" id="track">
       <figure class="card"><img loading="lazy" src="img/tree_s.jpg" srcset="img/tree_s.jpg 800w, img/tree.jpg 1600w" sizes="(max-width:900px) 84vw, 62vw" alt="Ёлка на площади с баннером «С Новым 2022 годом!»"><span class="num mono">01</span><figcaption><b>Площадь с ёлкой</b><span>Баннер «С Новым 2022 годом», ларёк с шаурмой, Абоба</span></figcaption></figure>
       <figure class="card"><img loading="lazy" src="img/rink_s.jpg" srcset="img/rink_s.jpg 800w, img/rink.jpg 1600w" sizes="(max-width:900px) 84vw, 62vw" alt="Каток в парке"><span class="num mono">02</span><figcaption><b>Каток в парке</b><span>Настоящая инерция на льду. Разгоняйся и скользи</span></figcaption></figure>
@@ -281,6 +293,8 @@ footer .big{font:900 clamp(60px,14vw,200px)/.9 Unbounded;color:transparent;-webk
       <figure class="card"><img loading="lazy" src="img/shop_s.jpg" srcset="img/shop_s.jpg 800w, img/shop.jpg 1600w" sizes="(max-width:900px) 84vw, 62vw" alt="Полки магазина «Подтёрочка»"><span class="num mono">05</span><figcaption><b>«Подтёрочка» 24/7</b><span>45 товаров, тульские пряники и корм «Шлёпа Премиум»</span></figcaption></figure>
       <figure class="card"><img loading="lazy" src="img/craft_s.jpg" srcset="img/craft_s.jpg 800w, img/craft.jpg 1600w" sizes="(max-width:900px) 84vw, 62vw" alt="Игра VaibCraft на компьютере"><span class="num mono">06</span><figcaption><b>VaibCraft на компьютере</b><span>Отдельная игра-песочница с крафтом и порталом в финале</span></figcaption></figure>
       <figure class="card"><img loading="lazy" src="img/park_s.jpg" srcset="img/park_s.jpg 800w, img/park.jpg 1600w" sizes="(max-width:900px) 84vw, 62vw" alt="Ночной парк с фонарями"><span class="num mono">07</span><figcaption><b>Парк</b><span>Фонари, беседка и берёзы. Иногда здесь открываются разломы</span></figcaption></figure>
+      <figure class="card"><img loading="lazy" src="img/priv_s.jpg" srcset="img/priv_s.jpg 800w, img/priv.jpg 1600w" sizes="(max-width:900px) 84vw, 62vw" alt="Частный сектор с деревянными домами"><span class="num mono">08</span><figcaption><b>Частный сектор</b><span>Новое в 2.0: деревянные дома, заборы и тёплый свет в окнах</span></figcaption></figure>
+      <figure class="card"><img loading="lazy" src="img/plant_s.jpg" srcset="img/plant_s.jpg 800w, img/plant.jpg 1600w" sizes="(max-width:900px) 84vw, 62vw" alt="Завод с полосатой трубой"><span class="num mono">09</span><figcaption><b>Завод и гаражи</b><span>Новое в 2.0: красно-белая труба, гаражный кооператив, натриевые фонари</span></figcaption></figure>
     </div>
   </div>
 </section>
@@ -330,6 +344,19 @@ footer .big{font:900 clamp(60px,14vw,200px)/.9 Unbounded;color:transparent;-webk
       </div>
       <div class="tracks" id="tracks"></div>
     </div>
+  </div>
+</section>
+
+<section class="sec" id="updates">
+  <div class="intro"><h2 class="rv">Обновления</h2><p class="rv">Что поменялось в игре. Тот же список открывается в игре — кнопка «Что нового» в главном меню.</p></div>
+  <div class="updl">
+    <article class="upd now rv"><div class="uv mono">v2.0 · сейчас</div><h3>«Большой Саратов»</h3><ul><li>Карта стала в 2,5 раза больше: 63 квартала вместо 25</li><li>Частный сектор: деревянные дома с резными окнами, заборы, поленницы, тёплый свет в окнах</li><li>Гаражный кооператив и завод с красно-белой трубой</li><li>Новостройки на 12 и 16 этажей на севере города</li><li>Стадион с прожекторами и трибунами</li><li>Натриевые фонари: оранжевые пятна света на дорогах, как в настоящем городе</li><li>Сугробы вдоль обочин и машины у тротуаров, засыпанные снегом</li><li>Реалистичное ночное небо: тёмная синева и тёплое зарево города у горизонта</li><li>Тёплые фонари в парках и на набережной; северное сияние — только от кристаллов</li><li>Набережная Волги с фонарями на всю ширину города</li><li>Карта в телефоне показывает весь город</li><li>Оптимизация: деревья по шаблонам и облегчённые окна — видеопамяти меньше, чем было до расширения</li><li>Оптимизация: свет считается только от ближайших фонарей</li><li>Окно «Что нового» с историей обновлений</li></ul></article>
+    <details class="upd rv"><summary><span class="uv mono">v1.9</span> «Район 64»</summary><ul><li>Новая игра на компьютере в квартире: ночной город, машины, полиция, 6 миссий, такси, радио</li><li>Оптимизация для телефона: сниженное разрешение 3D, меньше источников света, быстрые сенсорные кнопки</li></ul></details>
+    <details class="upd rv"><summary><span class="uv mono">v1.8</span> Скорость</summary><ul><li>60 FPS вместо 40: упрощённые дальние кварталы, проход глубины, эффекты экрана на видеокарте</li><li>Настройка «Графика»: Низкая, Средняя, Высокая</li><li>Исправлено: прыжок от 3-го лица, урон от мемов во время диалога, заказы тёти Любы</li><li>Метка «Вайб-Арсенал» всегда видна на экране</li></ul></details>
+    <details class="upd rv"><summary><span class="uv mono">v1.7</span> Снюс</summary><ul><li>Снюс у кассы «Подтёрочки»: 100 хороших и 100 плохих случайных эффектов</li></ul></details>
+    <details class="upd rv"><summary><span class="uv mono">v1.6</span> Мультиплеер</summary><ul><li>Игра с друзьями через интернет: ПК и телефоны вместе, лобби, ники над головой</li><li>Сохранения сюжета и песочницы для каждой компании друзей хранятся на сервере</li></ul></details>
+    <details class="upd rv"><summary><span class="uv mono">v1.5</span> Сюжет и песочница</summary><ul><li>Длинный сюжет: 14 глав и 76 миссий, выборы в диалогах и три концовки</li><li>Оружие в «Вайб-Арсенале», мемы 2026 как враги, союзники Шлёпа, Скала и Плюшик</li><li>Песочница с кнопкой «Спавн врагов», сохранения и кнопки «Продолжить» / «Новая игра»</li></ul></details>
+    <details class="upd rv"><summary><span class="uv mono">v1.0</span> Зима 2021</summary><ul><li>Двор в Саратове, «Подтёрочка», телефон с ВайбТоком, Vaibify, квартира 17 с компьютером и VaibCraft</li><li>Каток, горка, качели, лифт, люди и машины на улицах, Волга с мостом</li></ul></details>
   </div>
 </section>
 
